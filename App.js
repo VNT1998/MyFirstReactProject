@@ -7,64 +7,64 @@
  */
 
 import React, {useState} from 'react';
-import {StyleSheet, Text, useColorScheme, View} from 'react-native';
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 var count = 0;
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-  const [name, setName] = useState('Vinit');
-  const [session, setSession] = useState({number: 0, title: 'state'});
-  const [current, setCurrent] = useState(true);
+  const [Items, setItems] = useState([
+    {key: 1, item: 'Item 1'},
+    {key: 2, item: 'Item 2'},
+    {key: 3, item: 'Item 3'},
+    {key: 4, item: 'Item 4'},
+    {key: 5, item: 'Item 5'},
+    {key: 6, item: 'Item 6'},
+    {key: 7, item: 'Item 7'},
+    {key: 8, item: 'Item 8'},
+    {key: 9, item: 'Item 9'},
+    {key: 10, item: 'Item 10'},
+    {key: 11, item: 'Item 11'},
+    {key: 12, item: 'Item 12'},
+    {key: 13, item: 'Item 13'},
+    {key: 14, item: 'Item 14'},
+  ]);
+  const [Refreshing, setRefreshing] = useState(false);
 
-  const onClickHandler = () => {
-    setSession({number: ++count});
-    if (name === 'Vinit') {
-      setName('Vinit Karkera');
-      setCurrent(false);
-    } else {
-      setName('Vinit');
-      setCurrent(true);
-    }
+  const onRefresh = () => {
+    setRefreshing(true);
+    setItems([...Items, {key: 15, item: 'Item 15'}]);
+    setRefreshing(false);
   };
   return (
-    // <SafeAreaView>
+    // <SafeAreasssView>
     <View style={styles.body}>
-      <View style={styles.row1}>
-        <View style={styles.text1}>
-          <Text style={styles.text}>1</Text>
-        </View>
-        <View style={styles.text2}>
-          <Text style={styles.text}>2</Text>
-        </View>
-        <View style={styles.text3}>
-          <Text style={styles.text}>3</Text>
-        </View>
-      </View>
-      <View style={styles.row2}>
-        <View style={styles.text4}>
-          <Text style={styles.text}>4</Text>
-        </View>
-      </View>
-      <View style={styles.row3}>
-        <View style={styles.text5}>
-          <Text style={styles.text}>5</Text>
-        </View>
-      </View>
-      <View style={styles.row4}>
-        <View style={styles.text6}>
-          <Text style={styles.text}>6</Text>
-        </View>
-        <View style={styles.text7}>
-          <Text style={styles.text}>7</Text>
-        </View>
-      </View>
+      <ScrollView
+        horizontal
+        refreshControl={
+          <RefreshControl
+            refreshing={Refreshing}
+            onRefresh={onRefresh}
+            colors={['#ff00ff']}
+          />
+        }>
+        {Items.map(i => {
+          return (
+            <View style={styles.item} key={i.key}>
+              <Text style={styles.text}>{i.item}</Text>
+            </View>
+          );
+        })}
+      </ScrollView>
     </View>
-    // </SafeAreaView>
+    /* </SafeAreaView> */
   );
 };
 
@@ -73,79 +73,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#ffffff',
+  },
+  item: {
+    margin: 10,
     alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  row1: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
     justifyContent: 'center',
-  },
-  row2: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-  },
-  row3: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-  },
-  row4: {
-    flex: 5,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'center',
+    backgroundColor: '#4ae1fa',
   },
 
-  text1: {
-    flex: 1,
-    backgroundColor: '#0AF7F4',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text2: {
-    flex: 2,
-    backgroundColor: '#F70AE9',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text3: {
-    flex: 3,
-    backgroundColor: '#F7F70A',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text4: {
-    flex: 1,
-    backgroundColor: '#ff0000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text5: {
-    flex: 1,
-    backgroundColor: '#428E36',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text6: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text7: {
-    flex: 1,
-    backgroundColor: '#364E8E',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   text: {
     color: '#000000',
-    fontSize: 20,
+    margin: 10,
+    fontSize: 40,
     fontStyle: 'italic',
   },
 });

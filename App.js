@@ -7,11 +7,24 @@
  */
 
 import React, {useState} from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const App = () => {
   const [name, setName] = useState('');
-
+  const [isSubmitted, setSubmitted] = useState(false);
+  const onPressHandler = () => {
+    setSubmitted(!isSubmitted);
+  };
   return (
     <View style={styles.body}>
       <Text style={styles.text}>Please write your name</Text>
@@ -22,7 +35,35 @@ const App = () => {
         maxLength={10}
         secureTextEntry={true}
       />
-      <Text style={styles.text}>Your name is: {name}</Text>
+      <TouchableHighlight
+        onPress={onPressHandler}
+        underlayColor="#dddddd"
+        style={styles.button}>
+        <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
+      </TouchableHighlight>
+      <TouchableOpacity onPress={onPressHandler} style={styles.button}>
+        <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
+      </TouchableOpacity>
+      <TouchableWithoutFeedback onPress={onPressHandler} style={styles.button}>
+        <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
+      </TouchableWithoutFeedback>
+      <Pressable
+        hitslop={{top: 10, bottom: 10}}
+        onPress={onPressHandler}
+        style={({pressed}) => [
+          {backgroundColor: pressed ? '#dddddd' : '#00ff00'},
+          styles.button,
+        ]}>
+        <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
+      </Pressable>
+      <Button
+        title={!isSubmitted ? 'Show name' : 'Hide name'}
+        onPress={onPressHandler}
+        color="#00f"
+      />
+      {isSubmitted ? (
+        <Text style={styles.text}>Your name is: {name}</Text>
+      ) : null}
     </View>
   );
 };
@@ -51,6 +92,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontStyle: 'italic',
     textAlign: 'center',
+  },
+  button: {
+    fontSize: 20,
+    padding: 20,
+    borderRadius: 20,
+    // backgroundColor: '#00ff00',
   },
 });
 

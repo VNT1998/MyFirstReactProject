@@ -8,8 +8,8 @@
 
 import React, {useState} from 'react';
 import {
-  Alert,
   Button,
+  Modal,
   StyleSheet,
   Text,
   TextInput,
@@ -23,25 +23,39 @@ import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 const App = () => {
   const [name, setName] = useState('');
   const [isSubmitted, setSubmitted] = useState(false);
+  const [isModalVisible, setModalVisibility] = useState(false);
   const onPressHandler = () => {
     if (name.length > 2) {
       setSubmitted(!isSubmitted);
     } else {
-      Alert.alert(
-        'Warning',
-        'The name must be at least 2 characters',
-        [
-          {
-            text: 'Cool',
-            onPress: () => console.warn('Cool pressed'),
-          },
-        ],
-        {cancelable: true},
-      );
+      setModalVisibility(true);
     }
   };
   return (
     <View style={styles.body}>
+      <Modal
+        visible={isModalVisible}
+        transparent
+        onRequestClose={() => {
+          setModalVisibility(false);
+        }}
+        animationType="fade">
+        <View style={styles.modal}>
+          <View style={styles.warning_modal}>
+            <View style={styles.warning_title}>
+              <Text style={styles.warning_title_text}>WARNING</Text>
+            </View>
+            <Text>The name must be longer than 2 char</Text>
+            <Button
+              title="OK"
+              onPress={() => {
+                setModalVisibility(false);
+              }}
+              // color="#00f"
+            />
+          </View>
+        </View>
+      </Modal>
       <Text style={styles.text}>Please write your name</Text>
       <TextInput
         style={styles.input}
@@ -113,6 +127,34 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
     // backgroundColor: '#00ff00',
+  },
+  modal: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#00000099',
+  },
+  warning_modal: {
+    height: 150,
+    width: 300,
+    margin: 50,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#dddddd',
+    borderRadius: 10,
+  },
+  warning_title: {
+    height: 50,
+    width: 300,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#D84B4B',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+  },
+  warning_title_text: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 

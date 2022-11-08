@@ -8,6 +8,7 @@
 
 import React, {useState} from 'react';
 import {
+  Alert,
   Button,
   StyleSheet,
   Text,
@@ -23,7 +24,21 @@ const App = () => {
   const [name, setName] = useState('');
   const [isSubmitted, setSubmitted] = useState(false);
   const onPressHandler = () => {
-    setSubmitted(!isSubmitted);
+    if (name.length > 2) {
+      setSubmitted(!isSubmitted);
+    } else {
+      Alert.alert(
+        'Warning',
+        'The name must be at least 2 characters',
+        [
+          {
+            text: 'Cool',
+            onPress: () => console.warn('Cool pressed'),
+          },
+        ],
+        {cancelable: true},
+      );
+    }
   };
   return (
     <View style={styles.body}>

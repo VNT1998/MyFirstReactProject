@@ -9,6 +9,8 @@
 import React, {useState} from 'react';
 import {
   Button,
+  Image,
+  ImageBackground,
   Modal,
   StyleSheet,
   Text,
@@ -32,68 +34,92 @@ const App = () => {
     }
   };
   return (
-    <View style={styles.body}>
-      <Modal
-        visible={isModalVisible}
-        transparent
-        onRequestClose={() => {
-          setModalVisibility(false);
-        }}
-        animationType="fade">
-        <View style={styles.modal}>
-          <View style={styles.warning_modal}>
-            <View style={styles.warning_title}>
-              <Text style={styles.warning_title_text}>WARNING</Text>
+    <ImageBackground
+      style={styles.body}
+      source={{
+        uri: 'https://images.pexels.com/photos/3894157/pexels-photo-3894157.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      }}>
+      <View>
+        <Modal
+          visible={isModalVisible}
+          transparent
+          onRequestClose={() => {
+            setModalVisibility(false);
+          }}
+          animationType="fade">
+          <View style={styles.modal}>
+            <View style={styles.warning_modal}>
+              <View style={styles.warning_title}>
+                <Text style={styles.warning_title_text}>WARNING</Text>
+              </View>
+              <Text>The name must be longer than 2 char</Text>
+              <Button
+                title="OK"
+                onPress={() => {
+                  setModalVisibility(false);
+                }}
+              />
             </View>
-            <Text>The name must be longer than 2 char</Text>
-            <Button
-              title="OK"
-              onPress={() => {
-                setModalVisibility(false);
-              }}
-              // color="#00f"
-            />
           </View>
-        </View>
-      </Modal>
-      <Text style={styles.text}>Please write your name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter here"
-        onChangeText={i => setName(i)}
-        maxLength={10}
-        secureTextEntry={true}
-      />
-      <TouchableHighlight
-        onPress={onPressHandler}
-        underlayColor="#dddddd"
-        style={styles.button}>
-        <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
-      </TouchableHighlight>
-      <TouchableOpacity onPress={onPressHandler} style={styles.button}>
-        <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
-      </TouchableOpacity>
-      <TouchableWithoutFeedback onPress={onPressHandler} style={styles.button}>
-        <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
-      </TouchableWithoutFeedback>
-      <Pressable
-        hitslop={{top: 10, bottom: 10}}
-        onPress={onPressHandler}
-        style={({pressed}) => [
-          {backgroundColor: pressed ? '#dddddd' : '#00ff00'},
-          styles.button,
-        ]}>
-        <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
-      </Pressable>
-      <Button
-        title={!isSubmitted ? 'Show name' : 'Hide name'}
-        onPress={onPressHandler}
-        color="#00f"
-      />
-      {isSubmitted ? (
-        <Text style={styles.text}>Your name is: {name}</Text>
-      ) : null}
-    </View>
+        </Modal>
+        <Text style={styles.text}>Please write your name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter here"
+          onChangeText={i => setName(i)}
+          maxLength={10}
+          secureTextEntry={true}
+        />
+        <TouchableHighlight
+          onPress={onPressHandler}
+          underlayColor="#dddddd"
+          style={styles.button}>
+          {!isSubmitted ? (
+            <Text>Show name</Text>
+          ) : (
+            <View>
+              <Image
+                style={styles.image}
+                source={require('./assets/1.jpg')}
+                resizeMode="stretch"
+              />
+              <Image
+                style={styles.image}
+                source={{
+                  uri: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
+                }}
+                resizeMode="stretch"
+              />
+            </View>
+          )}
+        </TouchableHighlight>
+        <TouchableOpacity onPress={onPressHandler} style={styles.button}>
+          <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
+        </TouchableOpacity>
+        <TouchableWithoutFeedback
+          onPress={onPressHandler}
+          style={styles.button}>
+          <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
+        </TouchableWithoutFeedback>
+        <Pressable
+          hitslop={{top: 10, bottom: 10}}
+          onPress={onPressHandler}
+          style={({pressed}) => [
+            {backgroundColor: pressed ? '#dddddd' : '#00ff00'},
+            styles.button,
+          ]}>
+          <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
+        </Pressable>
+        <Button
+          title={!isSubmitted ? 'Show name' : 'Hide name'}
+          onPress={onPressHandler}
+          color="#00f"
+        />
+        {isSubmitted ? (
+          <Text style={styles.text}>Your name is: {name}</Text>
+        ) : null}
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -127,6 +153,10 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
     // backgroundColor: '#00ff00',
+  },
+  image: {
+    height: 200,
+    width: 400,
   },
   modal: {
     flex: 1,

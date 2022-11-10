@@ -21,6 +21,7 @@ import {
   View,
 } from 'react-native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import MarshButton from './CustomButton';
 
 const App = () => {
   const [name, setName] = useState('');
@@ -110,10 +111,15 @@ const App = () => {
           ]}>
           <Text>{!isSubmitted ? 'Show name' : 'Hide name'}</Text>
         </Pressable>
-        <Button
+        <MarshButton
           title={!isSubmitted ? 'Show name' : 'Hide name'}
-          onPress={onPressHandler}
-          color="#00f"
+          onPressHandler={onPressHandler}
+          color={'#FFFFFF'}
+        />
+        <MarshButton
+          title={!isSubmitted ? 'Show name' : 'Hide name'}
+          onPressHandler={onPressHandler}
+          color={'#000000'}
         />
         {isSubmitted ? (
           <Text style={styles.text}>Your name is: {name}</Text>
